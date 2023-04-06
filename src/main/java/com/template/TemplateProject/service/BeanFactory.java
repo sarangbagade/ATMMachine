@@ -3,9 +3,12 @@ package com.template.TemplateProject.service;
 import com.template.TemplateProject.ATMConfig;
 import com.template.TemplateProject.repository.IRepository;
 import com.template.TemplateProject.repository.InMemoryRepo;
+import net.jcip.annotations.GuardedBy;
 
 public class BeanFactory {
 
+    private static final Object lockObject = new Object();
+    @GuardedBy("lockObject")
     private static IdleState idleState;
     private static DispenseCashState dispenseCashState;
     private static EnterPinState enterPinState;
@@ -22,7 +25,11 @@ public class BeanFactory {
     public static IdleState getIdleState()
     {
         if(idleState == null) {
-            idleState = new IdleState();
+            synchronized (lockObject) {
+                if(idleState == null) {
+                    idleState = new IdleState();
+                }
+            }
         }
         return idleState;
     }

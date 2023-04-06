@@ -1,30 +1,33 @@
 package com.template.TemplateProject.service;
 
+import net.jcip.annotations.ThreadSafe;
+
+@ThreadSafe
 public class ATMService {
 
-    public void numberClicked(Integer number)
+    public synchronized void numberClicked(Integer number)
     {
         BeanFactory.getUtils().getState().numberClicked(number);
     }
 
-    public void cardEnter(String cardNumber)
+    public synchronized void cardEnter(String cardNumber)
     {
         BeanFactory.getUtils().getState().cardEnter(cardNumber);
     }
-    public void enterClicked()
+    public synchronized void enterClicked()
     {
         BeanFactory.getUtils().getState().enterClicked();
     }
-    public void clearClicked()
+    public synchronized void clearClicked()
     {
         BeanFactory.getUtils().getState().clearClicked();
     }
-    public void cancelClicked()
+    public synchronized void cancelClicked()
     {
         BeanFactory.getUtils().getState().cancelClicked();
     }
 
-    public void initialize() {
+    public synchronized void initialize() {
         BeanFactory.getUtils().setState(BeanFactory.getIdleState());
     }
 }
